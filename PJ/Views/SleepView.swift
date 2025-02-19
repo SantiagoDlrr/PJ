@@ -31,12 +31,13 @@ struct SleepView: View {
         return temp
     }()
     
+    @StateObject private var navManager = NavigationManager()
     @ObservedObject var jvm: JournalViewModel
     
     var body: some View {
         
         // Top bar (hacerlo componente?)
-        NavigationStack{
+        NavigationStack(path: $navManager.path){
             
             VStack{
                 HStack(alignment: .center){
@@ -92,8 +93,8 @@ struct SleepView: View {
                         
                         Spacer()
                         
-                        NavigationLink{
-                            AddEntryView(jvm: jvm)
+                        Button{
+                            navManager.path.append("entry1")
                         }label: {
                             Text("Check-In")
                                 .padding()
@@ -111,6 +112,17 @@ struct SleepView: View {
                 Spacer()
             }
             .padding(24)
+            .environmentObject(navManager)
+            .navigationDestination(for: String.self) { value in
+                if value == "entry1" {
+                    AddEntryView(jvm: jvm)
+                        .environmentObject(navManager)
+                } else if value == "entry2" {
+                    AddNoteView(jvm: jvm)
+                        .environmentObject(navManager)
+
+                }
+            }
         }
     }
 }

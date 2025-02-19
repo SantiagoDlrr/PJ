@@ -14,24 +14,30 @@ import Foundation
 
 struct Entry: Identifiable {
     
-    let id: UUID = UUID()
+    let id = UUID()
     
     var date: Date = Date()
-    var hourOfSleep: String = "7h 30m"
+    var minutesSleeping: Int = 0
     var cycles: Int = 0
     var score: Double = 0
     var note: String = ""
-    var mattressTime: [(String, Date )] = [("Laying in bed trying 2 sleep", Date())] // Tu escribes las cosas
+    var mattressTime: [activity] = [activity(name: "Lying in bed", time: 0)]
     
     
     
     
     
     static let sampleData = [
-        Entry(date: Date(), hourOfSleep: "7h 30m", cycles: 5, score: 8.2),
+        Entry(date: Date(), minutesSleeping: 150, cycles: 5, score: 8.2),
         /*Entry(id: UUID(), date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!, cycles: 4, hourOfSleep: "6h 45m", score: 7.5),
         Entry(id: UUID(), date: Calendar.current.date(byAdding: .day, value: -2, to: Date())!, cycles: 6, hourOfSleep: "8h 15m", score: 9.0),
         Entry(id: UUID(), date: Calendar.current.date(byAdding: .day, value: -3, to: Date())!, cycles: 3, hourOfSleep: "5h 10m", score: 6.3),
         Entry(id: UUID(), date: Calendar.current.date(byAdding: .day, value: -4, to: Date())!, cycles: 5, hourOfSleep: "7h 0m", score: 7.8),
     */]
+}
+
+struct activity: Identifiable {
+    let id = UUID()
+    var name: String = ""
+    var time: Int = 0
 }
