@@ -11,7 +11,7 @@ import SwiftUI
 class JournalViewModel: ObservableObject {
     @Published  var entries = [
         Entry(date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!, minutesSleeping: 150, cycles: 5, score: 8.2, mattressTime: [activity(name: "Lying in bed", time: 0)]),
-        Entry(date: Date(), minutesSleeping: 300, cycles: 5, score: 10, mattressTime: [activity(name: "Lying in bed", time: 10)])
+        Entry(date: Date(), minutesSleeping: 300, cycles: 5, score: 95, mattressTime: [activity(name: "Lying in bed", time: 10)])
         ]
     
     var sampleData = [
@@ -62,7 +62,7 @@ class JournalViewModel: ObservableObject {
                 return diff
             }
         }
-        return [-1,-1,-1]
+        return [-100,-100,-100]
         
     }
     
@@ -71,7 +71,7 @@ class JournalViewModel: ObservableObject {
         return [
             Double(entry.mattressTime.count),
             Double(calculateTotalMatressTime(entry: entry)),
-            Double(entry.minutesSleeping*60)
+            Double(entry.minutesSleeping)
         ]
     }
     

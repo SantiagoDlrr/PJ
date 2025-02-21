@@ -67,7 +67,7 @@ struct AddEntryView: View {
             
             // Score
             HStack{
-                Text("Score (0.0 - 10)")
+                Text("Score (0 - 100)")
                 Spacer()
                 TextField("0.0 - 10", value: $score, formatter: NumberFormatter())
                     .frame(width: 80)

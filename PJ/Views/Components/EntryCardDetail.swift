@@ -42,9 +42,8 @@ struct EntryCardDetail: View {
                 
             
             Text("\(op)\(percentage, specifier: "%.1f")%")
-                .foregroundStyle(percentage > 0  ? .green : .red)
-                .bold()
-        }
+                .foregroundStyle(percentage > 0  ? Color(.myGreen) : Color(.myRed))
+            .fontWeight(.heavy)        }
         
     }
 }

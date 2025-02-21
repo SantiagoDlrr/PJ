@@ -7,7 +7,9 @@
 
 
 // Option I re ident|
+// Text("Third Añadir 3 averages: sleep, score, colchóntime, añadir perfil (buscarme un yutu tutorial para ver que me saco, y Days like fitnesPal")
 import SwiftUI
+
 
 struct JournalView : View {
     
@@ -16,8 +18,40 @@ struct JournalView : View {
     
     var body: some View {
         
-        
-        Text("Third Añadir 3 averages: sleep, score, colchóntime, añadir perfil (buscarme un yutu tutorial para ver que me saco, y Days like fitnesPal")
+        VStack(){
+            HStack(alignment: .center){
+                Text("Your Entries")
+                    .font(.title)
+                    .fontWeight(.bold)
+                
+                Spacer()
+                
+                HStack{
+                    Image(systemName: "moon.fill")
+                        .foregroundColor(Color(.myYellow))
+                        .font(.system(size: 24))
+                }
+            }
+            .frame(height: 70)
+            
+            Divider()
+                .frame(width: 380, height: 2)
+                .overlay(.white)
+            
+            
+            Spacer()
+            
+            ScrollView{
+                ForEach(jvm.entries.reversed()){entry in
+                    EntryCard(jvm: jvm, entry: entry)
+                }
+            }
+            .padding(.top, 8)
+        }
+        .padding(24)
+
+            
+    
         
         /* Creo que aquí me falta un vstack
         

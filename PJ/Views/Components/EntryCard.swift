@@ -10,6 +10,7 @@ import SwiftUI
 struct EntryCard: View {
     
     @ObservedObject var jvm: JournalViewModel
+    var entry: Entry = Entry(minutesSleeping: 150, score: 100)
     
     var date: Date = Date()
     var numberOfActivities: Double = 0
@@ -18,10 +19,21 @@ struct EntryCard: View {
     var score: Int =  0
     
     var backgroundColor: Color = .yellow
-    var scoreColor: Color = .green
     
     var body: some View {
-        let entry: Entry = jvm.entries.last ?? Entry(date: Date())
+        
+        var scoreColor: Color {
+            if entry.score >= 70 && entry.score < 90 {
+                return Color(.mylightGreen)
+            }
+            else if entry.score >= 40 && entry.score < 70 {
+                return Color(.myYellow)
+            } else if entry.score < 40 || entry.score == 0{
+                return Color(.myRed)
+            } else{
+                return Color(.myGreen)
+            }
+        }
         
         ZStack{
             Rectangle()
@@ -50,8 +62,9 @@ struct EntryCard: View {
                     
                     EntryCardDetail(title: "Matress", metric: Double(jvm.calculateTotalMatressTime(entry: entry)), percentage: pr[1])
                     
-                    EntryCardDetail(title: "Sleep", metric: Double((entry.minutesSleeping/60)), percentage: pr[2])
+                    EntryCardDetail(title: "Sleep", metric: Double((entry.minutesSleeping))/60, percentage: pr[2])
                 }
+        
                 
                 Spacer()
                 
@@ -60,10 +73,10 @@ struct EntryCard: View {
                             .font(.title)
                             .bold()
                             .foregroundStyle(scoreColor)
-                }.frame(width: 40)
+                }.frame(width: 55)
                 
             }
-            .frame(width: 350, height: 105)
+            .frame(width: 360, height: 105)
             
         
         }
