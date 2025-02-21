@@ -9,7 +9,15 @@ import Foundation
 import SwiftUI
 
 class JournalViewModel: ObservableObject {
-    @Published  var entries = [Entry]()
+    @Published  var entries = [
+        Entry(date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!, minutesSleeping: 150, cycles: 5, score: 8.2, mattressTime: [activity(name: "Lying in bed", time: 0)]),
+        Entry(date: Date(), minutesSleeping: 300, cycles: 5, score: 10, mattressTime: [activity(name: "Lying in bed", time: 10)])
+        ]
+    
+    var sampleData = [
+        Entry(date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!, minutesSleeping: 150, cycles: 5, score: 8.2, mattressTime: [activity(name: "Lying in bed", time: 0)]),
+        Entry(date: Date(), minutesSleeping: 300, cycles: 5, score: 10, mattressTime: [activity(name: "Lying in bed", time: 10)])
+        ]
 
     func deleteEntry(at offsets: IndexSet) {
         entries.remove(atOffsets: offsets)
@@ -35,6 +43,39 @@ class JournalViewModel: ObservableObject {
         // Implementation
     }
     
+    func calculateAtributePercentageDiff(entry: Entry) -> [Double]{
+        if let idx = entries.firstIndex(where:{$0.id == entry.id}){
+            if idx == 0{
+                return [0.0,0.0,0.0]
+                
+            }else{
+                let arr1 = capAuxiliar(entry: entry)
+                let arr2 = capAuxiliar(entry: entries[idx - 1])
+                
+                var diff: [Double] = []
+                for (x, y) in zip(arr1, arr2) {
+                    if y == 0 {
+                        diff.append(0)
+                    }
+                    else {diff.append(((x-y)/y)*100)}
+                }
+                return diff
+            }
+        }
+        return [-1,-1,-1]
+        
+    }
+    
+    func capAuxiliar(entry: Entry) -> [Double]{
+        
+        return [
+            Double(entry.mattressTime.count),
+            Double(calculateTotalMatressTime(entry: entry)),
+            Double(entry.minutesSleeping*60)
+        ]
+    }
+    
+    
     func checkforValidEntry(entry: Entry) -> Bool{
         var valid: Bool = false
         if entry.minutesSleeping > 0 && entry.score > 0.0 {
@@ -42,5 +83,6 @@ class JournalViewModel: ObservableObject {
         }
         return valid
     }
+    
     
 }

@@ -9,6 +9,8 @@ import SwiftUI
 
 struct EntryCard: View {
     
+    @ObservedObject var jvm: JournalViewModel
+    
     var date: Date = Date()
     var numberOfActivities: Double = 0
     var mattressTime: Double = 0
@@ -19,6 +21,8 @@ struct EntryCard: View {
     var scoreColor: Color = .green
     
     var body: some View {
+        let entry: Entry = jvm.entries.last ?? Entry(date: Date())
+        
         ZStack{
             Rectangle()
                 .frame(width: 400, height: 105)
@@ -28,38 +32,47 @@ struct EntryCard: View {
             HStack{
                 
                 VStack(alignment: .leading){
-                    Text(date.formatted(.dateTime.weekday()))
+                    Text(entry.date.formatted(.dateTime.weekday()))
                         .font(.title2)
                         .bold()
-                    Text(date, format: .dateTime.month().day())
+                    Text(entry.date, format: .dateTime.month().day())
                         .font(.subheadline)
                         .bold() // Maybe change it?
                 }
                 Spacer()
                 
+                // PercentageResults
+                let pr = jvm.calculateAtributePercentageDiff(entry: entry)
+                let _ = print(pr)
+                
                 HStack{
-                    EntryCardDetail(title: "Acts", metric: numberOfActivities)
+                    EntryCardDetail(title: "Acts", metric: Double(entry.mattressTime.count), percentage: pr[0])
                     
-                    EntryCardDetail(title: "Matress", metric: mattressTime, percentage: -22.1)
+                    EntryCardDetail(title: "Matress", metric: Double(jvm.calculateTotalMatressTime(entry: entry)), percentage: pr[1])
                     
-                    EntryCardDetail(title: "Sleep", metric: sleepTime)
+                    EntryCardDetail(title: "Sleep", metric: Double((entry.minutesSleeping/60)), percentage: pr[2])
                 }
                 
                 Spacer()
                 
-                Text("90")
-                    .font(.title)
-                    .bold()
-                    .foregroundStyle(scoreColor)
+                HStack{
+                    Text("\(Int(entry.score))")
+                            .font(.title)
+                            .bold()
+                            .foregroundStyle(scoreColor)
+                }.frame(width: 40)
+                
             }
             .frame(width: 350, height: 105)
             
+        
         }
+        
     }
 }
 
 #Preview {
-    EntryCard()
+    EntryCard(jvm: JournalViewModel())
 }
 
 /*GeometryReader { proxy in

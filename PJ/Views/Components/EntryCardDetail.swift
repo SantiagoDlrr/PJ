@@ -15,7 +15,7 @@ struct EntryCardDetail: View {
     var type: String {
         if title == "Sleep"{
             return "h"}
-        else if title == "MT"{
+        else if title == "Matress"{
             return "min"
         }
         else{

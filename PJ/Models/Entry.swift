@@ -12,8 +12,9 @@
 
 import Foundation
 
-struct Entry: Identifiable {
+struct Entry: Identifiable{
     
+  
     let id = UUID()
     
     var date: Date = Date()
@@ -28,7 +29,8 @@ struct Entry: Identifiable {
     
     
     static let sampleData = [
-        Entry(date: Date(), minutesSleeping: 150, cycles: 5, score: 8.2),
+        Entry(date: Date(), minutesSleeping: 300, cycles: 5, score: 10, mattressTime: [activity(name: "Lying in bed", time: 10)]),
+        Entry(date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!, minutesSleeping: 150, cycles: 5, score: 8.2, mattressTime: [activity(name: "Lying in bed", time: 0)]),
         /*Entry(id: UUID(), date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!, cycles: 4, hourOfSleep: "6h 45m", score: 7.5),
         Entry(id: UUID(), date: Calendar.current.date(byAdding: .day, value: -2, to: Date())!, cycles: 6, hourOfSleep: "8h 15m", score: 9.0),
         Entry(id: UUID(), date: Calendar.current.date(byAdding: .day, value: -3, to: Date())!, cycles: 3, hourOfSleep: "5h 10m", score: 6.3),
